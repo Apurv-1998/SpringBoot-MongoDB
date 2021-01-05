@@ -11,7 +11,9 @@ import org.springframework.stereotype.Service;
 
 import com.fullstack.mongodb.application.entity.StudentEntity;
 import com.fullstack.mongodb.application.model.request.CreateStudentDetailsModel;
+import com.fullstack.mongodb.application.repository.DepartmentRepository;
 import com.fullstack.mongodb.application.repository.StudentRepository;
+import com.fullstack.mongodb.application.repository.SubjectRepository;
 import com.fullstack.mongodb.application.service.StudentService;
 
 
@@ -22,6 +24,12 @@ public class StudentServiceImpl implements StudentService {
 	StudentRepository studentRepository;
 	
 	@Autowired
+	DepartmentRepository departmentRepository;
+	
+	@Autowired
+	SubjectRepository subjectRepository;
+	
+	@Autowired
 	ModelMapper mapper;
 
 	@Override
@@ -29,6 +37,14 @@ public class StudentServiceImpl implements StudentService {
 		// TODO Auto-generated method stub
 		
 		StudentEntity student = mapper.map(createStudentDetailsModel,StudentEntity.class);
+		
+		if(student.getDepartment()!=null) {
+			departmentRepository.save(student.getDepartment());
+		}
+		
+		if(student.getSubjects()!=null && student.getSubjects().size()>0) {
+			subjectRepository.saveAll(student.getSubjects());
+		}
 		
 		return studentRepository.save(student);
 		
@@ -74,7 +90,7 @@ public class StudentServiceImpl implements StudentService {
 	@Override
 	public List<StudentEntity> getStudentByName(String name) {
 		
-		return studentRepository.findByName(name);
+		return studentRepository.findStudentByName(name);
 		
 	}
 
@@ -104,16 +120,10 @@ public class StudentServiceImpl implements StudentService {
 	}
 
 	@Override
-	public List<StudentEntity> getStudentsByDepartmentName(String department_name) {
+	public List<StudentEntity> getDepartmentById(String id) {
 		
-		return studentRepository.findByDepartmentDepartmentName(department_name);
+		return studentRepository.findByDepartmentId(id);
 		
-	}
-
-	@Override
-	public List<StudentEntity> getStudentsBySubjectName(String subject_name) {
-		
-		return studentRepository.findBySubjectsSubjectName(subject_name);
 	}
 
 }

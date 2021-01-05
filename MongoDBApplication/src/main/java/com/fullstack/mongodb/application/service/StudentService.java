@@ -25,8 +25,6 @@ public interface StudentService {
 
 	List<StudentEntity> retuenSortedStudents(String feild);
 
-	List<StudentEntity> getStudentsByDepartmentName(String department_name);
-
-	List<StudentEntity> getStudentsBySubjectName(String subject_name);
+	List<StudentEntity> getDepartmentById(String id);
 
 }
