@@ -97,17 +97,10 @@ public class StudentController {
 	}
 	
 	
-	@GetMapping(path = "/getStudentByDepartment")
-	public List<StudentEntity> getStudentsByDepartmentName(@RequestParam(name = "dept") String department_name){
+	@GetMapping(path = "/{id}/getDepartment")
+	public List<StudentEntity> getDepartmentByDepartmentId(@PathVariable String id){
 		
-		return studentService.getStudentsByDepartmentName(department_name);
-		
-	}
-	
-	@GetMapping(path = "/getStudentBySubject")
-	public List<StudentEntity> getStudentsBySubjectName(@RequestParam(name = "subject") String subject_name){
-		
-		return studentService.getStudentsBySubjectName(subject_name);
+		return studentService.getDepartmentById(id);
 		
 	}
 }

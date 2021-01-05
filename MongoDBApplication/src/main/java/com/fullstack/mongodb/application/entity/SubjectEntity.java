@@ -1,14 +1,18 @@
 package com.fullstack.mongodb.application.entity;
 
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.Field;
 
 import lombok.Data;
 
-//Since it is not a separate collection we do not need to mark it with @Document
 
-
+@Document(collection = "subject") 
 @Data
 public class SubjectEntity {
+	
+	@Id
+	private String id;
 	
 	@Field(name = "subject_name")
 	private String subjectName;

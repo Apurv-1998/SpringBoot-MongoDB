@@ -3,7 +3,8 @@ package com.fullstack.mongodb.application.entity;
 import java.util.List;
 
 import org.springframework.data.annotation.Id;
-import org.springframework.data.annotation.PersistenceConstructor;
+import org.springframework.data.annotation.Transient;
+import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.Field;
 
@@ -23,34 +24,23 @@ public class StudentEntity {
 	@Field(name = "mail") //similar to @Column annotation of Spring Data JPA
 	private String email;
 	
-	//Many-to-one with Department
-	private DepartmentEntity department; //similar to mongoDB so no need of @Feild
+	
+	//Referring to separate collections and not embedded sub-documents
 	
 	
-	//One-to-many with Subjects 
+	/*One-To-One*/
+	@DBRef
+	private DepartmentEntity department;
+	
+	/*One-To-Many*/
+	@DBRef
 	private List<SubjectEntity> subjects;
 	
 	
 	
-/*
- * Since more than one constructor in collection class therefore any one constructor has to be @PersistenceConstructor
- * 
- * */	
+	//Transient Value
+	@Transient
+	private double percentage;
 	
-	@PersistenceConstructor
-	public StudentEntity(String id, String name, String email, DepartmentEntity department,List<SubjectEntity> subjects) {
-		super();
-		this.id = id;
-		this.name = name;
-		this.email = email;
-		this.department = department;
-		this.subjects = subjects;
-	}
 
-
-	public StudentEntity(DepartmentEntity department, List<SubjectEntity> subjects) {
-		super();
-		this.department = department;
-		this.subjects = subjects;
-	}
 }
